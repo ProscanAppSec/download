@@ -4,20 +4,18 @@ On-premises application security platform. The launcher is a native desktop appl
 
 ## Download
 
-| Platform | Download | Size |
-|----------|----------|------|
-| **Windows x64** | [ProScan-windows-amd64.exe](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-windows-amd64.exe) | 11.1 MB |
-| **Linux x64** | [ProScan-linux-amd64](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-linux-amd64) | 10.5 MB |
-| **macOS Intel** | [ProScan-darwin-amd64](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-darwin-amd64) | 10.6 MB |
-| **macOS Apple Silicon** | [ProScan-darwin-arm64](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-darwin-arm64) | 10.4 MB |
+| Platform | Download | Size | Status |
+|----------|----------|------|--------|
+| **Windows x64** | [ProScan-windows-amd64.exe](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-windows-amd64.exe) | 16.3 MB | Signed, ready to use |
+| Linux x64 | — | — | Coming soon |
+| macOS Intel | — | — | Coming soon |
+| macOS Apple Silicon | — | — | Coming soon |
 
-On Linux/macOS, make it executable after downloading: `chmod +x ProScan-*`
+> **Note:** Linux and macOS launchers require native builds with platform-specific UI libraries (WebKitGTK on Linux, WebView on macOS). Native builds for these platforms are in progress.
 
 ## How It Works
 
-### Step-by-Step
-
-1. **Launch** — Run `proscan.exe`. A native desktop window opens.
+1. **Launch** — Run `ProScan-windows-amd64.exe`. A native desktop window opens.
 
 2. **Sign In** — Authenticate with your PaidActive account. If you've logged in before, the session restores automatically. Offline use is supported within your license period.
 
@@ -41,10 +39,10 @@ The launcher window embeds the full Proscan web interface, so there's no need to
 
 ### Requirements
 
-- **Docker Desktop** (Windows/macOS) or **Docker Engine** (Linux). Podman is also supported.
+- **Docker Desktop** (Windows)
 - **8 GB RAM** minimum (16 GB recommended)
 - **10 GB disk** for installation and scan data
-- **Windows 10+** (x64), **macOS 12+** (Intel or Apple Silicon), or **Linux** (x64)
+- **Windows 10+** (x64)
 
 ### Closing Behavior
 
