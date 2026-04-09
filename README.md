@@ -4,7 +4,14 @@ On-premises application security platform. The launcher is a native desktop appl
 
 ## Download
 
-**[Download Proscan Launcher (Windows x64)](https://github.com/ProscanAppSec/download/releases/latest/download/proscan.exe)** — ~16 MB
+| Platform | Download | Size |
+|----------|----------|------|
+| **Windows x64** | [ProScan-windows-amd64.exe](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-windows-amd64.exe) | 11.1 MB |
+| **Linux x64** | [ProScan-linux-amd64](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-linux-amd64) | 10.5 MB |
+| **macOS Intel** | [ProScan-darwin-amd64](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-darwin-amd64) | 10.6 MB |
+| **macOS Apple Silicon** | [ProScan-darwin-arm64](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-darwin-arm64) | 10.4 MB |
+
+On Linux/macOS, make it executable after downloading: `chmod +x ProScan-*`
 
 ## How It Works
 
@@ -37,7 +44,7 @@ The launcher window embeds the full Proscan web interface, so there's no need to
 - **Docker Desktop** (Windows/macOS) or **Docker Engine** (Linux). Podman is also supported.
 - **8 GB RAM** minimum (16 GB recommended)
 - **10 GB disk** for installation and scan data
-- **Windows 10+**, **macOS 12+**, or **Linux** (x64)
+- **Windows 10+** (x64), **macOS 12+** (Intel or Apple Silicon), or **Linux** (x64)
 
 ### Closing Behavior
 
