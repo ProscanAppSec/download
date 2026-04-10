@@ -4,18 +4,35 @@ On-premises application security platform. The launcher is a native desktop appl
 
 ## Download
 
-| Platform | Download | Size | Status |
-|----------|----------|------|--------|
-| **Windows x64** | [ProScan-windows-amd64.exe](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-windows-amd64.exe) | 16.3 MB | Signed, ready to use |
-| Linux x64 | — | — | Coming soon |
-| macOS Intel | — | — | Coming soon |
-| macOS Apple Silicon | — | — | Coming soon |
+| Platform | Download | Size |
+|----------|----------|------|
+| **Windows x64** | [ProScan-windows-amd64.exe](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-windows-amd64.exe) | 16.3 MB |
+| **Linux x64** | [ProScan-linux-amd64](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-linux-amd64) | 15.7 MB |
+| **macOS Universal (DMG)** | [ProScan-1.0.0-macos-universal.dmg](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-1.0.0-macos-universal.dmg) | 23.7 MB |
+| **macOS Universal (ZIP)** | [ProScan-1.0.0-macos-universal.zip](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-1.0.0-macos-universal.zip) | 15.6 MB |
 
-> **Note:** Linux and macOS launchers require native builds with platform-specific UI libraries (WebKitGTK on Linux, WebView on macOS). Native builds for these platforms are in progress.
+The macOS DMG and ZIP both contain a universal binary that runs natively on Intel and Apple Silicon Macs.
+
+## Quick Start
+
+**Windows** — Download and run `ProScan-windows-amd64.exe`.
+
+**Linux** — Download, make executable, and run:
+```bash
+chmod +x ProScan-linux-amd64
+./ProScan-linux-amd64
+```
+
+**macOS (DMG)** — Open the DMG, drag Proscan to Applications. On first launch, macOS may show a Gatekeeper warning. Bypass with:
+```bash
+xattr -d com.apple.quarantine /Applications/ProScan.app
+```
+
+**macOS (ZIP)** — Extract and run. Same Gatekeeper bypass applies if needed.
 
 ## How It Works
 
-1. **Launch** — Run `ProScan-windows-amd64.exe`. A native desktop window opens.
+1. **Launch** — Run the launcher. A native desktop window opens.
 
 2. **Sign In** — Authenticate with your PaidActive account. If you've logged in before, the session restores automatically. Offline use is supported within your license period.
 
@@ -39,10 +56,10 @@ The launcher window embeds the full Proscan web interface, so there's no need to
 
 ### Requirements
 
-- **Docker Desktop** (Windows)
+- **Docker Desktop** (Windows/macOS) or **Docker Engine** (Linux)
 - **8 GB RAM** minimum (16 GB recommended)
 - **10 GB disk** for installation and scan data
-- **Windows 10+** (x64)
+- **Windows 10+** (x64), **macOS 12+** (Intel or Apple Silicon), or **Linux** (x64)
 
 ### Closing Behavior
 
