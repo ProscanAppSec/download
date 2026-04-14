@@ -1,79 +1,136 @@
-# Proscan Launcher
+# Proscan
 
-On-premises application security platform. The launcher is a native desktop application that manages the entire Proscan deployment on your machine.
+On-premises application security platform. Your code never leaves your machine.
 
-## Download
+## Install
 
-| Platform | Download | Size |
-|----------|----------|------|
-| **Windows x64** | [ProScan-windows-amd64.exe](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-windows-amd64.exe) | 16.3 MB |
-| **Linux x64** | [ProScan-linux-amd64](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-linux-amd64) | 15.7 MB |
-| **macOS Universal (DMG)** | [ProScan-1.0.0-macos-universal.dmg](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-1.0.0-macos-universal.dmg) | 23.7 MB |
-| **macOS Universal (ZIP)** | [ProScan-1.0.0-macos-universal.zip](https://github.com/ProscanAppSec/download/releases/latest/download/ProScan-1.0.0-macos-universal.zip) | 15.6 MB |
+One command. Any platform with Docker.
 
-The macOS DMG and ZIP both contain a universal binary that runs natively on Intel and Apple Silicon Macs.
-
-## Quick Start
-
-**Windows** — Download and run `ProScan-windows-amd64.exe`.
-
-**Linux** — Download, make executable, and run:
 ```bash
-chmod +x ProScan-linux-amd64
-./ProScan-linux-amd64
+docker run -d \
+  --name proscan \
+  --restart unless-stopped \
+  -p 9090:9090 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  proscan/launcher:latest
 ```
 
-**macOS (DMG)** — Open the DMG, drag Proscan to Applications. On first launch, macOS may show a Gatekeeper warning. Bypass with:
-```bash
-xattr -d com.apple.quarantine /Applications/ProScan.app
+**Windows PowerShell:**
+```powershell
+docker run -d --name proscan --restart unless-stopped -p 9090:9090 -v //var/run/docker.sock:/var/run/docker.sock proscan/launcher:latest
 ```
 
-**macOS (ZIP)** — Extract and run. Same Gatekeeper bypass applies if needed.
+Then open **http://localhost:9090** in your browser.
 
-## How It Works
+## Prerequisites
 
-1. **Launch** — Run the launcher. A native desktop window opens.
+1. **Docker Desktop** (Windows/macOS) or **Docker Engine** (Linux) — installed and running
 
-2. **Sign In** — Authenticate with your PaidActive account. If you've logged in before, the session restores automatically. Offline use is supported within your license period.
+2. **Add the Proscan registry** to Docker's insecure registries (one-time):
 
-3. **Setup** (first run only) — A setup wizard walks you through configuring admin credentials, ports, and network settings.
+   **Docker Desktop (Windows / macOS):**
+   - Open Docker Desktop → Settings → Docker Engine
+   - Add to the JSON config:
+   ```json
+   {
+     "insecure-registries": ["registry.proscan.one:5000"]
+   }
+   ```
+   - Click "Apply & Restart"
 
-4. **Package Install** — The launcher downloads the Proscan backend package, verifies its integrity and authenticity, and installs it locally. Everything runs on your machine — no external image pulls.
+   **Linux:**
+   ```bash
+   sudo tee /etc/docker/daemon.json <<EOF
+   {
+     "insecure-registries": ["registry.proscan.one:5000"]
+   }
+   EOF
+   sudo systemctl restart docker
+   ```
 
-5. **Start Scanning** — Three local services start automatically: the Proscan backend (API + web UI + all 12 scanner modules), a PostgreSQL database, and a Redis cache. The full web interface loads inside the launcher window.
+3. **System resources:** 8 GB RAM minimum (16 GB recommended), 4 CPU cores, 20 GB disk
 
-6. **Ongoing** — The launcher periodically validates your license and checks for updates. Updates are applied in-place — your scan results, findings, and configurations are preserved.
+## Getting Started
 
-### Architecture
+1. **Open the launcher** — Go to **http://localhost:9090** in your browser
+2. **Create account** — Register with your email and password
+3. **Activate license** — Start a 15-day free trial or purchase a plan
+4. **Setup wizard** — Configure database password, admin credentials, network settings, and ports
+5. **Start scanning** — The launcher pulls the backend, starts all services, and you're ready to go
 
-The launcher is a native desktop application built with [Wails](https://wails.io/) (Go + React). It orchestrates three Docker containers locally:
+Once services are running, open **http://localhost:18080** or click "Open ProScan" in the dashboard.
 
-- **Backend** — Proscan API, web interface, and all 12 scanner modules
-- **PostgreSQL 17** — Stores scan results, findings, and configurations
-- **Redis 7** — Job queue and caching
+## What Gets Deployed
 
-The launcher window embeds the full Proscan web interface, so there's no need to open a browser. WebSocket connections are supported for real-time scan progress.
+The launcher orchestrates three containers on your machine:
 
-### Requirements
+| Container | Purpose |
+|-----------|---------|
+| **Backend** | Proscan API, web interface, and all 12 scanner modules |
+| **PostgreSQL 17** | Scan results, findings, and configurations |
+| **Redis 7** | Job queue and caching |
 
-- **Docker Desktop** (Windows/macOS) or **Docker Engine** (Linux)
-- **8 GB RAM** minimum (16 GB recommended)
-- **10 GB disk** for installation and scan data
-- **Windows 10+** (x64), **macOS 12+** (Intel or Apple Silicon), or **Linux** (x64)
+Everything runs locally. No code or data leaves your network.
 
-### Closing Behavior
+## Managing
 
-When closing the launcher, you choose:
-- **Keep Running** — Closes only the launcher window. Containers keep running. Scans in progress complete normally.
-- **Shutdown** — Stops all containers and closes the launcher.
+Access the launcher dashboard at **http://localhost:9090** to:
+- View service status
+- Start / Stop / Restart services
+- Check for updates
+- Create and restore backups
+- Configure container resources
+- Report issues
 
-### Updates
+### Stop
 
-When a new version is available, the launcher downloads and installs it automatically. All user data (scan results, findings, configurations) is preserved across updates — only the backend images are replaced.
+```bash
+# Stop launcher only (backend keeps running)
+docker stop proscan
 
-### Backup & Restore
+# Stop everything
+docker stop proscan gps-backend gps-pg gps-redis
+```
 
-Built-in backup and restore through the launcher UI. Backups are password-encrypted files containing your full database.
+### Start
+
+```bash
+docker start proscan
+```
+Then open http://localhost:9090 and click "Start Services".
+
+### Update
+
+From the dashboard, click **"Check Updates"**. If available, click **"Update"**. The launcher pulls the new version and restarts services. All scan data and configurations are preserved.
+
+### Uninstall
+
+```bash
+docker stop proscan gps-backend gps-pg gps-redis
+docker rm proscan gps-backend gps-pg gps-redis
+docker volume rm proscan-data goproscan_goproscan_pgdata goproscan_goproscan_redis goproscan_goproscan_data
+docker rmi proscan/launcher:latest goproscan-backend:latest
+```
+
+## Ports
+
+| Port | Service | Default |
+|------|---------|---------|
+| 9090 | Launcher dashboard | localhost only |
+| 18080 | Proscan web interface | localhost only |
+
+## Troubleshooting
+
+**"Docker is not installed"** — Install Docker Desktop from https://docs.docker.com/desktop/
+
+**Services won't start** — Ensure Docker has at least 8 GB RAM and 4 CPUs allocated (Docker Desktop → Settings → Resources).
+
+**Backend takes a long time on first start** — Database migrations run on first launch (60-90 seconds). Wait for the healthcheck to pass.
+
+**Port already in use** — Start with a different port:
+```bash
+docker run -d --name proscan -p 9091:9090 -v /var/run/docker.sock:/var/run/docker.sock proscan/launcher:latest
+```
 
 ---
 
@@ -83,7 +140,8 @@ Built-in backup and restore through the launcher UI. Backups are password-encryp
 - [Scan Results](https://github.com/ProscanAppSec/scan-results)
 - [OWASP Benchmark Scorecard](https://github.com/ProscanAppSec/docs/blob/main/benchmark/results/OWASP_BENCHMARK_SCORECARD.md)
 
-## Contact
+## Support
 
-- Email: [contact@proscan.one](mailto:contact@proscan.one)
-- Website: [proscan.one](https://proscan.one)
+- **In-App:** Use the "Report Issue" button in the launcher dashboard
+- **Email:** [support@proscan.one](mailto:support@proscan.one)
+- **Website:** [proscan.one](https://proscan.one)
