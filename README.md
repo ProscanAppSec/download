@@ -12,12 +12,12 @@ docker run -d \
   --restart unless-stopped \
   -p 9090:9090 \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  registry.proscan.one:2083/proscan/launcher
+  proscanappsec/launcher
 ```
 
 **Windows PowerShell:**
 ```powershell
-docker run -d --name proscan --restart unless-stopped -p 9090:9090 -v //var/run/docker.sock:/var/run/docker.sock registry.proscan.one:2083/proscan/launcher
+docker run -d --name proscan --restart unless-stopped -p 9090:9090 -v //var/run/docker.sock:/var/run/docker.sock proscanappsec/launcher
 ```
 
 Then open **http://localhost:9090** in your browser.
@@ -94,7 +94,7 @@ From the dashboard, click **"Check Updates"**. If available, click **"Update"**.
 docker stop proscan gps-backend gps-pg gps-redis
 docker rm proscan gps-backend gps-pg gps-redis
 docker volume rm proscan-data goproscan_goproscan_pgdata goproscan_goproscan_redis goproscan_goproscan_data
-docker rmi registry.proscan.one:2083/proscan/launcher:latest registry.proscan.one:2083/proscan/backend:latest
+docker rmi proscanappsec/launcher:latest
 ```
 
 ## Ports
@@ -114,7 +114,7 @@ docker rmi registry.proscan.one:2083/proscan/launcher:latest registry.proscan.on
 
 **Port already in use** — Start with a different port:
 ```bash
-docker run -d --name proscan -p 9091:9090 -v /var/run/docker.sock:/var/run/docker.sock registry.proscan.one:2083/proscan/launcher
+docker run -d --name proscan -p 9091:9090 -v /var/run/docker.sock:/var/run/docker.sock proscanappsec/launcher
 ```
 
 ---
