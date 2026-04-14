@@ -33,7 +33,7 @@ Then open **http://localhost:9090** in your browser.
    - Add to the JSON config:
    No special Docker configuration needed — the registry runs on port 2083 with TLS.
 
-3. **System resources:** 8 GB RAM minimum (16 GB recommended), 4 CPU cores, 20 GB disk
+3. **System resources:** 8 GB RAM minimum (16 GB recommended), 4 CPU cores, 2 GB disk
 
 ## Getting Started
 
