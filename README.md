@@ -12,12 +12,12 @@ docker run -d \
   --restart unless-stopped \
   -p 9090:9090 \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  proscan/launcher:latest
+  registry.proscan.one:2083/proscan/launcher
 ```
 
 **Windows PowerShell:**
 ```powershell
-docker run -d --name proscan --restart unless-stopped -p 9090:9090 -v //var/run/docker.sock:/var/run/docker.sock proscan/launcher:latest
+docker run -d --name proscan --restart unless-stopped -p 9090:9090 -v //var/run/docker.sock:/var/run/docker.sock registry.proscan.one:2083/proscan/launcher
 ```
 
 Then open **http://localhost:9090** in your browser.
@@ -31,22 +31,7 @@ Then open **http://localhost:9090** in your browser.
    **Docker Desktop (Windows / macOS):**
    - Open Docker Desktop → Settings → Docker Engine
    - Add to the JSON config:
-   ```json
-   {
-     "insecure-registries": ["registry.proscan.one:5000"]
-   }
-   ```
-   - Click "Apply & Restart"
-
-   **Linux:**
-   ```bash
-   sudo tee /etc/docker/daemon.json <<EOF
-   {
-     "insecure-registries": ["registry.proscan.one:5000"]
-   }
-   EOF
-   sudo systemctl restart docker
-   ```
+   No special Docker configuration needed — the registry runs on port 2083 with TLS.
 
 3. **System resources:** 8 GB RAM minimum (16 GB recommended), 4 CPU cores, 20 GB disk
 
@@ -109,7 +94,7 @@ From the dashboard, click **"Check Updates"**. If available, click **"Update"**.
 docker stop proscan gps-backend gps-pg gps-redis
 docker rm proscan gps-backend gps-pg gps-redis
 docker volume rm proscan-data goproscan_goproscan_pgdata goproscan_goproscan_redis goproscan_goproscan_data
-docker rmi proscan/launcher:latest goproscan-backend:latest
+docker rmi registry.proscan.one:2083/proscan/launcher:latest registry.proscan.one:2083/proscan/backend:latest
 ```
 
 ## Ports
@@ -129,7 +114,7 @@ docker rmi proscan/launcher:latest goproscan-backend:latest
 
 **Port already in use** — Start with a different port:
 ```bash
-docker run -d --name proscan -p 9091:9090 -v /var/run/docker.sock:/var/run/docker.sock proscan/launcher:latest
+docker run -d --name proscan -p 9091:9090 -v /var/run/docker.sock:/var/run/docker.sock registry.proscan.one:2083/proscan/launcher
 ```
 
 ---
